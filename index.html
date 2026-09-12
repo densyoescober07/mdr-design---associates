@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDR Designs & Associates</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 100 100" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="5,60 22,50 22,100 5,100" fill="#F49121" />
+                    <polygon points="27,30 47,20 47,100 27,100" fill="#F49121" />
+                    <polygon points="52,25 72,35 72,100 52,100" fill="#F49121" />
+                    <polygon points="77,50 95,60 95,100 77,100" fill="#F49121" />
+                </svg>
+                <div class="logo-text">
+                    <span class="logo-main">MDR DESIGNS</span>
+                    <span class="logo-sub">&amp; ASSOCIATES</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#services">Services</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Contact Us</a>
+            <div class="mobile-menu-btn">
+                <i data-lucide="menu"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-bg">
+            <img src="assets/hero_modern_house.jpg" alt="Modern Architecture House">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-content">
+            <p class="hero-subtitle">MDR DESIGNS & ASSOCIATES</p>
+            <h1 class="hero-title">Design That Inspires</h1>
+            <p class="hero-description">We create spaces that inspire, endure, and elevate the human experience.
+                Building the future of architecture.</p>
+            <a href="#projects" class="btn btn-primary hero-btn">Explore Work <i data-lucide="arrow-right"></i></a>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>Years of creating spaces</p>
+            </div>
+            <div class="stat-item">
+                <h3>90+</h3>
+                <p>Amazing projects brought to life</p>
+            </div>
+            <div class="stat-item">
+                <h3>75+</h3>
+                <p>Happy clients, happy spaces</p>
+            </div>
+            <div class="stat-item">
+                <h3>11</h3>
+                <p>Designs that earn awards</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Vision Section -->
+    <section id="about" class="vision-section section-padding">
+        <div class="container">
+            <div class="vision-header reveal">
+                <h2 class="section-title">Our vision is to create spaces that inspire and endure</h2>
+                <div class="vision-text">
+                    <p>At MDR DESIGNS & ASSOCIATES, we believe that architecture is more than just building structures;
+                        it's about
+                        crafting environments that resonate with the human spirit. We blend innovative design with
+                        sustainable practices to create landmarks of tomorrow.</p>
+                    <a href="about.html" class="btn btn-secondary">More About Us <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="vision-image reveal reveal-scale delay-200">
+                <img src="assets/vision_aerial.jpg" alt="Aerial view of neighborhood">
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section section-padding">
+        <div class="container">
+            <div class="projects-header reveal">
+                <h2 class="section-title">What we've been up to<br>—check out our latest projects</h2>
+                <div class="projects-controls">
+                    <p>Discover a curated selection of our most recent and celebrated architectural endeavors.</p>
+                    <a href="#projects" class="btn btn-secondary">View All Work <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="projects-carousel">
+                <div class="project-card reveal delay-100">
+                    <div class="project-img">
+                        <img src="assets/project_oasis.jpg" alt="The Oasis">
+                        <span class="project-badge">Residential</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>The Oasis</h3>
+                        <p>A serene modern villa seamlessly integrated with its natural surroundings.</p>
+                    </div>
+                </div>
+                <div class="project-card reveal delay-200">
+                    <div class="project-img">
+                        <img src="assets/hero_modern_house.jpg" alt="The Harmony Residence">
+                        <span class="project-badge">Luxury</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>The Harmony Residence</h3>
+                        <p>Elegant design meeting sustainable living in the heart of the suburbs.</p>
+                    </div>
+                </div>
+                <div class="project-card reveal delay-300">
+                    <div class="project-img">
+                        <img src="assets/project_oasis.jpg" alt="The Horizon Building">
+                        <span class="project-badge">Commercial</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>The Horizon Building</h3>
+                        <p>A bold statement in modern commercial architecture overlooking the bay.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section section-padding">
+        <div class="container services-container">
+            <div class="services-content reveal">
+                <h2 class="section-title">Shaping iconic spaces through sustainable design.</h2>
+                <p class="services-desc">We offer a comprehensive suite of architectural services tailored to meet the
+                    unique needs of every project.</p>
+                <a href="#services" class="btn btn-secondary">Our Services <i data-lucide="arrow-right"></i></a>
+            </div>
+
+            <div class="services-layout">
+                <div class="services-image reveal reveal-scale delay-100">
+                    <img src="assets/services_sketch.jpg" alt="Architectural Sketch">
+                </div>
+                <div class="services-list">
+                    <div class="service-item active reveal delay-100">
+                        <div class="service-header">
+                            <span>01</span>
+                            <h3>Urban Planning</h3>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="service-body">
+                            <p>Designing comprehensive master plans that foster community and sustainable growth.</p>
+                        </div>
+                    </div>
+                    <div class="service-item reveal delay-200">
+                        <div class="service-header">
+                            <span>02</span>
+                            <h3>Residential</h3>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="service-body">
+                            <p>Crafting bespoke homes that reflect your lifestyle and aesthetic aspirations.</p>
+                        </div>
+                    </div>
+                    <div class="service-item reveal delay-300">
+                        <div class="service-header">
+                            <span>03</span>
+                            <h3>Commercial</h3>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="service-body">
+                            <p>Developing innovative workspaces that inspire productivity and collaboration.</p>
+                        </div>
+                    </div>
+                    <div class="service-item reveal delay-400">
+                        <div class="service-header">
+                            <span>04</span>
+                            <h3>Landmarks</h3>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="service-body">
+                            <p>Designing iconic structures that define skylines and cultural identities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section class="showcase-section section-padding">
+        <div class="container">
+            <h2 class="section-title text-center reveal">A Showcase of Vision,<br>Craft, and Form</h2>
+
+            <div class="masonry-grid">
+                <div class="grid-item item-1 reveal delay-100">
+                    <img src="assets/cta_skyscraper.jpg" alt="Skyscraper">
+                </div>
+                <div class="grid-item item-2 reveal delay-200">
+                    <img src="assets/project_oasis.jpg" alt="Modern House">
+                </div>
+                <div class="grid-item item-3 reveal delay-300">
+                    <img src="assets/vision_aerial.jpg" alt="Neighborhood">
+                </div>
+                <div class="grid-item item-4 reveal delay-400">
+                    <img src="assets/hero_modern_house.jpg" alt="Architecture">
+                </div>
+                <div class="grid-item item-5 reveal delay-500">
+                    <div class="cta-box">
+                        <h3>View Our Full Gallery</h3>
+                        <a href="#projects" class="btn btn-primary">Explore <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container reveal reveal-scale">
+            <div class="cta-image">
+                <img src="assets/cta_skyscraper.jpg" alt="Skyscraper looking up">
+            </div>
+            <div class="cta-content">
+                <h2>Ready To Build Your Dream Project</h2>
+                <a href="#contact" class="btn btn-primary">Let's Talk <i data-lucide="message-square"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container reveal">
+            <div class="footer-brand">
+                <a href="#" class="logo footer-logo">
+                    <svg viewBox="0 0 100 100" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,60 22,50 22,100 5,100" fill="#F49121" />
+                        <polygon points="27,30 47,20 47,100 27,100" fill="#F49121" />
+                        <polygon points="52,25 72,35 72,100 52,100" fill="#F49121" />
+                        <polygon points="77,50 95,60 95,100 77,100" fill="#F49121" />
+                    </svg>
+                    <div class="logo-text">
+                        <span class="logo-main">MDR DESIGNS</span>
+                        <span class="logo-sub">&amp; ASSOCIATES</span>
+                    </div>
+                </a>
+                <p class="footer-desc">Crafting the future, one iconic space at a time.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.31 0 .61.05.89.14V8.97a6.34 6.34 0 0 0-.89-.06 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.41a8.28 8.28 0 0 0 4.76 1.5V6.46a4.85 4.85 0 0 1-1-.07l.9-.3z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#about">Philosophy</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Urban Planning</a></li>
+                        <li><a href="#">Residential Design</a></li>
+                        <li><a href="#">Commercial Architecture</a></li>
+                        <li><a href="#">Interior Design</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 MDR Designs & Associates. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
