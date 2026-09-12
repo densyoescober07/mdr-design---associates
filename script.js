@@ -60,6 +60,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileMenuBtn && navLinks) {
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('show-mobile');
+            const icon = mobileMenuBtn.querySelector('i, svg');
+            if (icon) {
+                if (navLinks.classList.contains('show-mobile')) {
+                    mobileMenuBtn.innerHTML = '<i data-lucide="x"></i>';
+                } else {
+                    mobileMenuBtn.innerHTML = '<i data-lucide="menu"></i>';
+                }
+                if (window.lucide) lucide.createIcons();
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('show-mobile');
+                mobileMenuBtn.innerHTML = '<i data-lucide="menu"></i>';
+                if (window.lucide) lucide.createIcons();
+            });
         });
     }
 
@@ -74,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentMouseX = 0, currentMouseY = 0;
         let isHeroHovered = false;
 
-        // Mouse Parallax on Desktop
-        if (window.matchMedia('(pointer: fine)').matches) {
+        // Mouse Parallax on Desktop only
+        if (window.matchMedia('(pointer: fine) and (min-width: 769px)').matches) {
             heroSection.addEventListener('mousemove', (e) => {
                 isHeroHovered = true;
                 const rect = heroSection.getBoundingClientRect();
@@ -96,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateParallax() {
             const scrollY = window.pageYOffset || document.documentElement.scrollTop;
             const heroHeight = heroSection.offsetHeight;
+            const isDesktop = window.innerWidth > 768;
 
             // Only calculate if hero is visible in viewport
             if (scrollY <= heroHeight + 50) {
@@ -103,25 +122,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentMouseX += (mouseX - currentMouseX) * 0.08;
                 currentMouseY += (mouseY - currentMouseY) * 0.08;
 
-                // 1. Background Parallax (slow scroll translation + subtle counter-mouse)
-                const bgScrollY = scrollY * 0.35;
-                const bgMouseX = -currentMouseX * 0.6;
-                const bgMouseY = -currentMouseY * 0.6;
+                // 1. Background Parallax
+                const bgScrollY = scrollY * 0.3;
+                const bgMouseX = isDesktop ? -currentMouseX * 0.6 : 0;
+                const bgMouseY = isDesktop ? -currentMouseY * 0.6 : 0;
                 heroBg.style.transform = `translate3d(${bgMouseX}px, ${bgScrollY + bgMouseY}px, 0)`;
 
                 // 2. Hero Content Parallax & Fade
-                const contentScrollY = scrollY * 0.22;
-                const contentMouseX = currentMouseX * 0.5;
-                const contentMouseY = currentMouseY * 0.5;
-                const contentOpacity = Math.max(0, 1 - scrollY / (heroHeight * 0.7));
+                const contentScrollY = scrollY * 0.18;
+                const contentMouseX = isDesktop ? currentMouseX * 0.5 : 0;
+                const contentMouseY = isDesktop ? currentMouseY * 0.5 : 0;
+                const contentOpacity = Math.max(0, 1 - scrollY / (heroHeight * 0.8));
                 heroContent.style.transform = `translate3d(${contentMouseX}px, ${contentScrollY + contentMouseY}px, 0)`;
                 heroContent.style.opacity = contentOpacity;
 
                 // 3. Stats Bar Parallax & Fade
                 if (statsContainer) {
                     const statsScrollY = scrollY * 0.1;
-                    const statsOpacity = Math.max(0, 1 - scrollY / (heroHeight * 0.85));
-                    statsContainer.style.transform = `translate3d(calc(-50% + ${currentMouseX * 0.2}px), ${statsScrollY}px, 0)`;
+                    const statsOpacity = Math.max(0, 1 - scrollY / (heroHeight * 0.9));
+                    if (isDesktop) {
+                        statsContainer.style.transform = `translate3d(calc(-50% + ${currentMouseX * 0.2}px), ${statsScrollY}px, 0)`;
+                    } else {
+                        statsContainer.style.transform = `translate3d(0, 0, 0)`;
+                    }
                     statsContainer.style.opacity = statsOpacity;
                 }
             }
