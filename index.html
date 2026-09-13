@@ -120,6 +120,19 @@
                             <span>Masterplanning &amp; Architecture</span>
                         </div>
                     </div>
+
+                    <!-- Slide 4 -->
+                    <div class="vision-slide">
+                        <img src="assets/mdr-slide5.jpg" alt="Masterplanning & Civic Vision">
+                        <div class="vision-slide-overlay"></div>
+                        <div class="vision-slide-badge">
+                            <i data-lucide="layers"></i>
+                            <span>Landscape</span>
+                        </div>
+                    </div>
+
+
+
                 </div>
 
                 <!-- Slider Navigation Buttons -->
@@ -189,7 +202,6 @@
                 <h2 class="section-title">Shaping iconic spaces through sustainable design.</h2>
                 <p class="services-desc">We offer a comprehensive suite of architectural services tailored to meet the
                     unique needs of every project.</p>
-                <a href="services.html" class="btn btn-secondary">Our Services <i data-lucide="arrow-right"></i></a>
             </div>
 
             <div class="services-layout">
@@ -251,6 +263,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="services-cta-wrap reveal delay-500">
+                        <a href="services.html" class="btn btn-secondary">Our Services <i
+                                data-lucide="arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -277,7 +293,8 @@
                 <div class="grid-item item-5 reveal delay-500">
                     <div class="cta-box">
                         <h3>View Our Full Gallery</h3>
-                        <a href="about.html#gallery" class="btn btn-primary">Explore <i data-lucide="arrow-right"></i></a>
+                        <a href="about.html#gallery" class="btn btn-primary">Explore <i
+                                data-lucide="arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -288,11 +305,12 @@
     <section class="cta-section">
         <div class="cta-container reveal reveal-scale">
             <div class="cta-image">
-                <img src="assets/cta_skyscraper.jpg" alt="Skyscraper looking up">
+                <img src="assets/consultation.jpg" alt="Skyscraper looking up">
             </div>
             <div class="cta-content">
                 <h2>Ready To Build Your Dream Project</h2>
-                <a href="#contact" class="btn btn-primary" data-open-modal="consultation">Let's Talk <i data-lucide="message-square"></i></a>
+                <a href="#contact" class="btn btn-primary" data-open-modal="consultation">Let's Talk <i
+                        data-lucide="message-square"></i></a>
             </div>
         </div>
     </section>
@@ -350,13 +368,13 @@
                     </ul>
                 </div>
                 <div class="link-group">
-                    <h4>Disciplines</h4>
-                    <ul>
-                        <li><a href="services.html#disciplines">Master Planning</a></li>
-                        <li><a href="services.html#disciplines">Residential Design</a></li>
-                        <li><a href="services.html#disciplines">Commercial Architecture</a></li>
-                        <li><a href="services.html#disciplines">Interior Design</a></li>
-                        <li><a href="services.html#disciplines">Net-Zero Architecture</a></li>
+                    <h4>Contact Details</h4>
+                    <ul class="footer-contact-list">
+                        <li><i data-lucide="map-pin"></i> <span>Pampanga, Philippines</span></li>
+                        <li><i data-lucide="phone"></i> <span>+63 917 176 3311
+                            </span></li>
+                        <li><i data-lucide="mail"></i> <span>mdrdesignandbuild@gmail.com</span></li>
+
                     </ul>
                 </div>
                 <div class="link-group">
@@ -375,7 +393,8 @@
     </footer>
 
     <!-- Luxury Book Consultation Modal -->
-    <div class="consultation-modal" id="consultationModal" aria-hidden="true" role="dialog" aria-labelledby="consultationTitle">
+    <div class="consultation-modal" id="consultationModal" aria-hidden="true" role="dialog"
+        aria-labelledby="consultationTitle">
         <div class="consultation-backdrop" id="consultationBackdrop"></div>
         <div class="consultation-container">
             <button class="consultation-close-btn" id="consultationCloseBtn" aria-label="Close Consultation Modal">
@@ -387,7 +406,8 @@
                 <div class="consultation-header">
                     <span class="consultation-tag">START YOUR PROJECT</span>
                     <h2 class="consultation-title" id="consultationTitle">Book a Consultation</h2>
-                    <p class="consultation-subtitle">Connect with our principal architects and engineering specialists to explore your spatial vision.</p>
+                    <p class="consultation-subtitle">Connect with our principal architects and engineering specialists
+                        to explore your spatial vision.</p>
                 </div>
 
                 <div class="consultation-body">
@@ -395,27 +415,32 @@
                         <div class="consultation-grid">
                             <div class="consultation-field">
                                 <label for="consultName">Full Name <span class="required">*</span></label>
-                                <input type="text" id="consultName" name="name" class="consultation-input" placeholder="e.g. Arch. Roberto Silva" required>
+                                <input type="text" id="consultName" name="name" class="consultation-input"
+                                    placeholder="e.g. Arch. Roberto Silva" required>
                             </div>
 
                             <div class="consultation-field">
                                 <label for="consultEmail">Email Address <span class="required">*</span></label>
-                                <input type="email" id="consultEmail" name="email" class="consultation-input" placeholder="name@company.com" required>
+                                <input type="email" id="consultEmail" name="email" class="consultation-input"
+                                    placeholder="name@company.com" required>
                             </div>
 
                             <div class="consultation-field">
                                 <label for="consultPhone">Phone Number <span class="required">*</span></label>
-                                <input type="tel" id="consultPhone" name="phone" class="consultation-input" placeholder="+63 912 345 6789" required>
+                                <input type="tel" id="consultPhone" name="phone" class="consultation-input"
+                                    placeholder="+63 912 345 6789" required>
                             </div>
 
                             <div class="consultation-field">
                                 <label for="consultLocation">Project Location</label>
-                                <input type="text" id="consultLocation" name="location" class="consultation-input" placeholder="City / Province / Country">
+                                <input type="text" id="consultLocation" name="location" class="consultation-input"
+                                    placeholder="City / Province / Country">
                             </div>
 
                             <div class="consultation-field full-width">
                                 <label for="consultMessage">Project Details &amp; Vision</label>
-                                <textarea id="consultMessage" name="message" class="consultation-textarea" placeholder="Briefly describe your site, floor area, architectural preferences, or key requirements..."></textarea>
+                                <textarea id="consultMessage" name="message" class="consultation-textarea"
+                                    placeholder="Briefly describe your site, floor area, architectural preferences, or key requirements..."></textarea>
                             </div>
                         </div>
 
@@ -423,7 +448,8 @@
                             <span>Request Consultation</span>
                             <i data-lucide="arrow-right"></i>
                         </button>
-                        <p class="consultation-note">Strictly confidential. DTI and BIR registered professional practice.</p>
+                        <p class="consultation-note">Strictly confidential. DTI and BIR registered professional
+                            practice.</p>
                     </form>
                 </div>
             </div>
@@ -434,7 +460,8 @@
                     <i data-lucide="check"></i>
                 </div>
                 <h3>Consultation Request Received</h3>
-                <p>Thank you for reaching out. Our principal architect will review your project requirements and connect with you within 24 hours.</p>
+                <p>Thank you for reaching out. Our principal architect will review your project requirements and connect
+                    with you within 24 hours.</p>
                 <button type="button" class="btn btn-primary" id="consultSuccessCloseBtn">Done</button>
             </div>
         </div>
