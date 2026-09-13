@@ -327,24 +327,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateCarousel() {
             carouselCards.forEach((card, idx) => {
-                // Calculate circular offset relative to currentIndex
-                const offset = (idx - currentIndex + totalCards) % totalCards;
+                // Calculate signed circular distance from currentIndex to idx
+                let diff = (idx - currentIndex) % totalCards;
+                if (diff > totalCards / 2) diff -= totalCards;
+                if (diff < -totalCards / 2) diff += totalCards;
 
                 // Remove positioning classes
-                card.classList.remove('active', 'prev-1', 'prev-2', 'next-1', 'next-2', 'hidden');
+                card.classList.remove('active', 'prev-1', 'prev-2', 'next-1', 'next-2', 'hidden', 'hidden-prev', 'hidden-next');
 
-                if (offset === 0) {
+                if (diff === 0) {
                     card.classList.add('active');
-                } else if (offset === 1) {
+                } else if (diff === 1) {
                     card.classList.add('next-1');
-                } else if (offset === 2) {
+                } else if (diff === 2) {
                     card.classList.add('next-2');
-                } else if (offset === totalCards - 1) {
+                } else if (diff > 2) {
+                    card.classList.add('hidden-next');
+                } else if (diff === -1) {
                     card.classList.add('prev-1');
-                } else if (offset === totalCards - 2) {
+                } else if (diff === -2) {
                     card.classList.add('prev-2');
                 } else {
-                    card.classList.add('hidden');
+                    card.classList.add('hidden-prev');
                 }
             });
 
@@ -358,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        let isAnimating = false;
         function goToSlide(index) {
             currentIndex = (index + totalCards) % totalCards;
             updateCarousel();
@@ -373,13 +378,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Card Click Handler
+        let wasDragging = false;
         carouselCards.forEach((card, idx) => {
             card.addEventListener('click', (e) => {
+                if (wasDragging) {
+                    wasDragging = false;
+                    return;
+                }
                 if (card.classList.contains('active')) {
                     // Click active center card -> Open Fullscreen Lightbox Modal
                     openLightbox(idx);
                 } else {
-                    // Click side card -> Rotate into center view
+                    // Click side card -> Rotate smoothly into center view
                     goToSlide(idx);
                 }
             });
@@ -407,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startAutoplay();
         }
 
-        // Pause Autoplay on Hover
+        // Pause Autoplay on Hover & Touch/Drag Swipe Support
         if (carouselContainer) {
             const wrapper = carouselContainer.closest('.luxury-carousel-wrapper') || carouselContainer;
             wrapper.addEventListener('mouseenter', stopAutoplay);
@@ -417,25 +427,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Touch Swipe support
-            let touchStartX = 0;
-            let touchEndX = 0;
+            // Touch & Pointer Swipe support
+            let startX = 0;
+            let isDragging = false;
 
             carouselContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
+                startX = e.changedTouches[0].clientX;
+                wasDragging = false;
                 stopAutoplay();
             }, { passive: true });
 
             carouselContainer.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                if (touchStartX - touchEndX > 45) {
-                    nextSlide();
-                } else if (touchEndX - touchStartX > 45) {
-                    prevSlide();
+                const endX = e.changedTouches[0].clientX;
+                const diffX = startX - endX;
+                if (Math.abs(diffX) > 40) {
+                    wasDragging = true;
+                    if (diffX > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    setTimeout(() => { wasDragging = false; }, 100);
                 } else {
                     startAutoplay();
                 }
             }, { passive: true });
+
+            // Mouse Drag support for desktop
+            carouselContainer.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return;
+                startX = e.clientX;
+                isDragging = true;
+                wasDragging = false;
+                stopAutoplay();
+            });
+
+            window.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                const endX = e.clientX;
+                const diffX = startX - endX;
+                if (Math.abs(diffX) > 40) {
+                    wasDragging = true;
+                    if (diffX > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    setTimeout(() => { wasDragging = false; }, 100);
+                } else {
+                    startAutoplay();
+                }
+            });
         }
 
         // Initialize Carousel
@@ -518,6 +561,225 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'ArrowRight') nextSlide();
                 if (e.key === 'ArrowLeft') prevSlide();
             }
+        });
+    }
+
+    // 11. Homepage Vision Smooth Slider with Zoom-Out Effects
+    const visionSlider = document.getElementById('visionSlider');
+    const visionSlides = document.querySelectorAll('.vision-slide');
+    const visionPrevBtn = document.getElementById('visionPrevBtn');
+    const visionNextBtn = document.getElementById('visionNextBtn');
+    const visionPagination = document.getElementById('visionPagination');
+
+    if (visionSlides.length > 0) {
+        let currentVisionIndex = 0;
+        const totalVisionSlides = visionSlides.length;
+        let visionAutoplayTimer = null;
+        const visionAutoplayDelay = 5500; // 5.5s autoplay
+
+        // Create pagination dots
+        if (visionPagination) {
+            visionPagination.innerHTML = '';
+            for (let i = 0; i < totalVisionSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `vision-dot ${i === 0 ? 'active' : ''}`;
+                dot.setAttribute('aria-label', `Go to vision slide ${i + 1}`);
+                dot.addEventListener('click', () => {
+                    goToVisionSlide(i);
+                });
+                visionPagination.appendChild(dot);
+            }
+        }
+
+        const visionDots = visionPagination ? visionPagination.querySelectorAll('.vision-dot') : [];
+
+        function updateVisionSlider() {
+            visionSlides.forEach((slide, idx) => {
+                if (idx === currentVisionIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            visionDots.forEach((dot, idx) => {
+                if (idx === currentVisionIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function goToVisionSlide(index) {
+            currentVisionIndex = (index + totalVisionSlides) % totalVisionSlides;
+            updateVisionSlider();
+            restartVisionAutoplay();
+        }
+
+        function nextVisionSlide() {
+            goToVisionSlide(currentVisionIndex + 1);
+        }
+
+        function prevVisionSlide() {
+            goToVisionSlide(currentVisionIndex - 1);
+        }
+
+        if (visionPrevBtn) visionPrevBtn.addEventListener('click', prevVisionSlide);
+        if (visionNextBtn) visionNextBtn.addEventListener('click', nextVisionSlide);
+
+        function startVisionAutoplay() {
+            stopVisionAutoplay();
+            visionAutoplayTimer = setInterval(nextVisionSlide, visionAutoplayDelay);
+        }
+
+        function stopVisionAutoplay() {
+            if (visionAutoplayTimer) {
+                clearInterval(visionAutoplayTimer);
+                visionAutoplayTimer = null;
+            }
+        }
+
+        function restartVisionAutoplay() {
+            stopVisionAutoplay();
+            startVisionAutoplay();
+        }
+
+        const visionWrapper = document.querySelector('.vision-slider-wrapper');
+        if (visionWrapper) {
+            visionWrapper.addEventListener('mouseenter', stopVisionAutoplay);
+            visionWrapper.addEventListener('mouseleave', startVisionAutoplay);
+
+            // Touch and mouse drag swipe support
+            let startX = 0;
+            let isDragging = false;
+
+            visionWrapper.addEventListener('touchstart', (e) => {
+                startX = e.changedTouches[0].clientX;
+                stopVisionAutoplay();
+            }, { passive: true });
+
+            visionWrapper.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].clientX;
+                const diffX = startX - endX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) nextVisionSlide();
+                    else prevVisionSlide();
+                } else {
+                    startVisionAutoplay();
+                }
+            }, { passive: true });
+
+            visionWrapper.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return;
+                startX = e.clientX;
+                isDragging = true;
+                stopVisionAutoplay();
+            });
+
+            window.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                const endX = e.clientX;
+                const diffX = startX - endX;
+                if (Math.abs(diffX) > 45) {
+                    if (diffX > 0) nextVisionSlide();
+                    else prevVisionSlide();
+                } else {
+                    startVisionAutoplay();
+                }
+            });
+        }
+
+        updateVisionSlider();
+        startVisionAutoplay();
+    }
+
+    // 12. Book Consultation Smooth Popup Modal Controller
+    const consultModal = document.getElementById('consultationModal');
+    const consultBackdrop = document.getElementById('consultationBackdrop');
+    const consultCloseBtn = document.getElementById('consultationCloseBtn');
+    const consultForm = document.getElementById('consultationForm');
+    const consultContentView = document.getElementById('consultationContentView');
+    const consultSuccess = document.getElementById('consultationSuccess');
+    const consultSuccessCloseBtn = document.getElementById('consultSuccessCloseBtn');
+    const consultSubmitBtn = document.getElementById('consultSubmitBtn');
+
+    function openConsultationModal() {
+        if (!consultModal) return;
+        
+        // Reset view to form
+        if (consultContentView) consultContentView.style.display = 'block';
+        if (consultSuccess) consultSuccess.classList.remove('active');
+        if (consultSubmitBtn) {
+            consultSubmitBtn.disabled = false;
+            consultSubmitBtn.innerHTML = '<span>Request Consultation</span><i data-lucide="arrow-right"></i>';
+        }
+
+        consultModal.classList.add('active');
+        consultModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Focus first input
+        setTimeout(() => {
+            const firstInput = consultModal.querySelector('input:not([type="hidden"]), textarea');
+            if (firstInput) firstInput.focus();
+        }, 150);
+    }
+
+    function closeConsultationModal() {
+        if (!consultModal) return;
+        consultModal.classList.remove('active');
+        consultModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    // Attach click listeners to all consultation & contact buttons
+    const modalTriggers = document.querySelectorAll('[data-open-modal="consultation"], a[href="#contact"], a[href="index.html#contact"], a[href="contact"]');
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            openConsultationModal();
+        });
+    });
+
+    if (consultCloseBtn) consultCloseBtn.addEventListener('click', closeConsultationModal);
+    if (consultBackdrop) consultBackdrop.addEventListener('click', closeConsultationModal);
+    if (consultSuccessCloseBtn) consultSuccessCloseBtn.addEventListener('click', closeConsultationModal);
+
+    // Escape key listener for consultation modal
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && consultModal && consultModal.classList.contains('active')) {
+            closeConsultationModal();
+        }
+    });
+
+    // Form Submission Handling
+    if (consultForm) {
+        consultForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (consultSubmitBtn) {
+                consultSubmitBtn.disabled = true;
+                consultSubmitBtn.innerHTML = '<span>Submitting Request...</span><i data-lucide="loader-2" class="spin"></i>';
+                if (window.lucide) lucide.createIcons();
+            }
+
+            // Simulate smooth asynchronous submission
+            setTimeout(() => {
+                if (consultContentView) consultContentView.style.display = 'none';
+                if (consultSuccess) consultSuccess.classList.add('active');
+                if (consultForm) consultForm.reset();
+                if (window.lucide) lucide.createIcons();
+            }, 600);
         });
     }
 });
