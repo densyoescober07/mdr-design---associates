@@ -505,21 +505,184 @@ p {
     margin-bottom: 2rem;
 }
 
-.vision-image {
+/* Vision Slider & Smooth Zoom-Out Effects */
+.vision-slider-wrapper {
+    position: relative;
     width: 100%;
-    height: 500px;
-    border-radius: 8px;
+    height: 520px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    background: #0d0f12;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.vision-slider-wrapper:active {
+    cursor: grabbing;
+}
+
+.vision-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.vision-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.9s;
+    z-index: 1;
     overflow: hidden;
 }
 
-.vision-image img {
-    width: 100%;
-    height: 100%;
-    transition: transform var(--transition-slow);
+.vision-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
 }
 
-.vision-image:hover img {
-    transform: scale(1.05);
+.vision-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 36%;
+    transform: scale(1.12);
+    transition: transform 7.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Smooth zoom-out Ken Burns effect while slide is active */
+.vision-slide.active img {
+    transform: scale(1.0);
+}
+
+.vision-slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13, 15, 18, 0.04) 0%, rgba(13, 15, 18, 0.2) 55%, rgba(13, 15, 18, 0.85) 100%);
+    pointer-events: none;
+}
+
+.vision-slide-badge {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 50px;
+    background: rgba(14, 16, 22, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(229, 123, 67, 0.5);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    z-index: 3;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(12px);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
+}
+
+.vision-slide-badge i {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-color);
+}
+
+.vision-slide.active .vision-slide-badge {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Vision Slider Nav Controls */
+.vision-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(14, 16, 22, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0.85;
+}
+
+.vision-prev {
+    left: 1.5rem;
+}
+
+.vision-next {
+    right: 1.5rem;
+}
+
+.vision-nav-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 22px rgba(229, 123, 67, 0.55);
+}
+
+.vision-nav-btn i {
+    width: 20px;
+    height: 20px;
+}
+
+/* Vision Slider Pagination */
+.vision-pagination {
+    position: absolute;
+    bottom: 1.8rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.vision-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 0;
+}
+
+.vision-dot:hover {
+    background: rgba(229, 123, 67, 0.7);
+    transform: scale(1.2);
+}
+
+.vision-dot.active {
+    width: 28px;
+    border-radius: 12px;
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 14px rgba(229, 123, 67, 0.6);
 }
 
 /* =========================================
@@ -633,11 +796,31 @@ p {
     align-items: center;
 }
 
-.services-image img {
-    border-radius: 8px;
-    mix-blend-mode: multiply;
-    filter: contrast(1.1);
+.services-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
 }
+
+.services-image img {
+    width: 270px;
+    height: 270px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid rgba(229, 123, 67, 0.35);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 0 25px rgba(229, 123, 67, 0.2);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.6s ease;
+}
+
+.services-image:hover img {
+    transform: scale(1.05);
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 35px rgba(229, 123, 67, 0.35);
+}
+
+
 
 .services-list {
     display: flex;
@@ -1105,20 +1288,27 @@ p {
 }
 
 .history-image {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
 }
 
 .history-image img {
-    width: 100%;
-    height: 420px;
+    width: 270px;
+    height: 270px;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
-    transition: transform var(--transition-slow);
+    border-radius: 50%;
+    border: 3px solid rgba(229, 123, 67, 0.35);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 0 25px rgba(229, 123, 67, 0.2);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.6s ease;
 }
 
 .history-image:hover img {
-    transform: scale(1.04);
+    transform: scale(1.05);
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 35px rgba(229, 123, 67, 0.35);
 }
 
 /* Timeline */
@@ -2179,18 +2369,21 @@ p {
 /* CTA Additions */
 .cta-subtitle {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 2px;
     color: var(--accent-color);
     margin-bottom: 0.8rem;
+    text-transform: uppercase;
 }
 
 .cta-desc {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 2rem;
-    max-width: 550px;
+    font-size: 1.15rem;
+    color: #3D4451;
+    line-height: 1.7;
+    margin-bottom: 2.2rem;
+    max-width: 560px;
+    font-weight: 400;
 }
 
 .cta-buttons {
@@ -2265,6 +2458,10 @@ p {
 
     .vision-header .section-title {
         font-size: 2.6rem;
+    }
+
+    .vision-slider-wrapper {
+        height: 440px;
     }
 
     .projects-header {
@@ -2434,6 +2631,35 @@ p {
         font-size: 2.1rem;
     }
 
+    .vision-slider-wrapper {
+        height: 320px;
+    }
+
+    .vision-nav-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .vision-prev {
+        left: 0.8rem;
+    }
+
+    .vision-next {
+        right: 0.8rem;
+    }
+
+    .vision-slide-badge {
+        bottom: 1rem;
+        left: 1rem;
+        font-size: 0.8rem;
+        padding: 0.35rem 0.85rem;
+    }
+
+    .vision-pagination {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
     .projects-carousel {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -2448,7 +2674,9 @@ p {
     }
 
     .services-image img {
-        height: 260px;
+        width: 220px;
+        height: 220px;
+        aspect-ratio: 1 / 1;
     }
 
     .service-header {
@@ -2536,7 +2764,9 @@ p {
     }
 
     .history-image img {
-        height: 280px;
+        width: 220px;
+        height: 220px;
+        aspect-ratio: 1 / 1;
     }
 
     .timeline-wrapper {
@@ -2760,6 +2990,13 @@ p {
     align-items: center;
     justify-content: center;
     perspective: 1200px;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.carousel-stage:active {
+    cursor: grabbing;
 }
 
 .carousel-track {
@@ -2781,17 +3018,20 @@ p {
     background: #101217;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.4s ease,
-                box-shadow 0.65s ease,
-                filter 0.65s ease;
+                box-shadow 0.7s ease,
+                filter 0.7s ease;
     will-change: transform, opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
 /* Center Active Card */
 .carousel-card.active {
-    transform: translateX(0) scale(1.04);
+    transform: translate3d(0, 0, 0) scale(1.04);
     z-index: 10;
     opacity: 1;
     filter: brightness(1);
@@ -2801,39 +3041,47 @@ p {
 
 /* Side Adjacent Cards */
 .carousel-card.prev-1 {
-    transform: translateX(-490px) scale(0.85);
+    transform: translate3d(-490px, 0, 0) scale(0.85);
     z-index: 5;
-    opacity: 0.55;
-    filter: brightness(0.65);
+    opacity: 0.6;
+    filter: brightness(0.7);
 }
 
 .carousel-card.next-1 {
-    transform: translateX(490px) scale(0.85);
+    transform: translate3d(490px, 0, 0) scale(0.85);
     z-index: 5;
-    opacity: 0.55;
-    filter: brightness(0.65);
+    opacity: 0.6;
+    filter: brightness(0.7);
 }
 
 /* Outer Depth Cards */
 .carousel-card.prev-2 {
-    transform: translateX(-880px) scale(0.68);
+    transform: translate3d(-880px, 0, 0) scale(0.68);
     z-index: 2;
-    opacity: 0.2;
+    opacity: 0.25;
     filter: brightness(0.4);
     pointer-events: none;
 }
 
 .carousel-card.next-2 {
-    transform: translateX(880px) scale(0.68);
+    transform: translate3d(880px, 0, 0) scale(0.68);
     z-index: 2;
-    opacity: 0.2;
+    opacity: 0.25;
     filter: brightness(0.4);
     pointer-events: none;
 }
 
-/* Hidden Cards */
-.carousel-card.hidden {
-    transform: translateX(0) scale(0.5);
+/* Hidden Cards off-screen Left & Right for seamless sliding without center-cross jump */
+.carousel-card.hidden,
+.carousel-card.hidden-prev {
+    transform: translate3d(-1250px, 0, 0) scale(0.5);
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.carousel-card.hidden-next {
+    transform: translate3d(1250px, 0, 0) scale(0.5);
     z-index: 0;
     opacity: 0;
     pointer-events: none;
@@ -2850,7 +3098,11 @@ p {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
 }
 
 .carousel-card.active:hover .card-image-wrap img {
@@ -3189,19 +3441,28 @@ p {
     }
 
     .carousel-card.prev-1 {
-        transform: translateX(-400px) scale(0.85);
+        transform: translate3d(-400px, 0, 0) scale(0.85);
     }
 
     .carousel-card.next-1 {
-        transform: translateX(400px) scale(0.85);
+        transform: translate3d(400px, 0, 0) scale(0.85);
     }
 
     .carousel-card.prev-2 {
-        transform: translateX(-700px) scale(0.68);
+        transform: translate3d(-720px, 0, 0) scale(0.68);
     }
 
     .carousel-card.next-2 {
-        transform: translateX(700px) scale(0.68);
+        transform: translate3d(720px, 0, 0) scale(0.68);
+    }
+
+    .carousel-card.hidden,
+    .carousel-card.hidden-prev {
+        transform: translate3d(-1000px, 0, 0) scale(0.5);
+    }
+
+    .carousel-card.hidden-next {
+        transform: translate3d(1000px, 0, 0) scale(0.5);
     }
 }
 
@@ -3216,15 +3477,24 @@ p {
     }
 
     .carousel-card.prev-1 {
-        transform: translateX(-340px) scale(0.82);
+        transform: translate3d(-340px, 0, 0) scale(0.82);
     }
 
     .carousel-card.next-1 {
-        transform: translateX(340px) scale(0.82);
+        transform: translate3d(340px, 0, 0) scale(0.82);
     }
 
     .carousel-card.prev-2,
-    .carousel-card.next-2 {
+    .carousel-card.hidden,
+    .carousel-card.hidden-prev {
+        transform: translate3d(-600px, 0, 0) scale(0.6);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .carousel-card.next-2,
+    .carousel-card.hidden-next {
+        transform: translate3d(600px, 0, 0) scale(0.6);
         opacity: 0;
         pointer-events: none;
     }
@@ -3263,13 +3533,28 @@ p {
     }
 
     .carousel-card.prev-1 {
-        transform: translateX(-240px) scale(0.8);
+        transform: translate3d(-240px, 0, 0) scale(0.8);
         opacity: 0.35;
     }
 
     .carousel-card.next-1 {
-        transform: translateX(240px) scale(0.8);
+        transform: translate3d(240px, 0, 0) scale(0.8);
         opacity: 0.35;
+    }
+
+    .carousel-card.prev-2,
+    .carousel-card.hidden,
+    .carousel-card.hidden-prev {
+        transform: translate3d(-400px, 0, 0) scale(0.55);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .carousel-card.next-2,
+    .carousel-card.hidden-next {
+        transform: translate3d(400px, 0, 0) scale(0.55);
+        opacity: 0;
+        pointer-events: none;
     }
 
     .carousel-nav-btn {
@@ -3298,5 +3583,323 @@ p {
 
     .lightbox-counter {
         align-self: flex-end;
+    }
+}
+
+/* =========================================
+   Luxury Book Consultation Popup Modal
+   ========================================= */
+.consultation-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+    padding: 1.5rem;
+}
+
+.consultation-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.consultation-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 10, 14, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    cursor: pointer;
+}
+
+.consultation-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 660px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #12141B;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), 0 0 35px rgba(229, 123, 67, 0.18);
+    transform: scale(0.94) translateY(20px);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(229, 123, 67, 0.4) transparent;
+}
+
+.consultation-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.consultation-container::-webkit-scrollbar-thumb {
+    background: rgba(229, 123, 67, 0.4);
+    border-radius: 10px;
+}
+
+.consultation-modal.active .consultation-container {
+    transform: scale(1) translateY(0);
+}
+
+.consultation-close-btn {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.consultation-close-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: rotate(90deg) scale(1.08);
+    box-shadow: 0 0 15px rgba(229, 123, 67, 0.6);
+}
+
+.consultation-close-btn i {
+    width: 20px;
+    height: 20px;
+}
+
+.consultation-header {
+    padding: 2.4rem 2.4rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.consultation-tag {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.consultation-title {
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+}
+
+.consultation-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+}
+
+.consultation-body {
+    padding: 1.8rem 2.4rem 2.4rem;
+}
+
+.consultation-form {
+    display: block;
+}
+
+.consultation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.consultation-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.consultation-field.full-width {
+    grid-column: span 2;
+}
+
+.consultation-field label {
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.consultation-field label span.required {
+    color: var(--accent-color);
+}
+
+.consultation-input,
+.consultation-select,
+.consultation-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.consultation-input:focus,
+.consultation-select:focus,
+.consultation-textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(229, 123, 67, 0.22);
+}
+
+.consultation-input::placeholder,
+.consultation-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.consultation-select option {
+    background: #12141B;
+    color: #ffffff;
+    padding: 0.5rem;
+}
+
+.consultation-textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+.consultation-submit-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    cursor: pointer;
+}
+
+.consultation-submit-btn i {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-fast);
+}
+
+.consultation-submit-btn:hover i {
+    transform: translateX(4px);
+}
+
+.consultation-submit-btn i.spin {
+    animation: modalSpin 0.9s linear infinite;
+}
+
+@keyframes modalSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.consultation-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1rem;
+}
+
+/* Modal Success Screen */
+.consultation-success {
+    display: none;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+}
+
+.consultation-success.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.4s ease;
+}
+
+.success-icon-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(229, 123, 67, 0.15);
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 30px rgba(229, 123, 67, 0.35);
+}
+
+.success-icon-badge i {
+    width: 36px;
+    height: 36px;
+}
+
+.consultation-success h3 {
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-bottom: 0.6rem;
+}
+
+.consultation-success p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 440px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.consultation-success .btn {
+    min-width: 180px;
+}
+
+@media (max-width: 768px) {
+    .consultation-modal {
+        padding: 0.8rem;
+    }
+
+    .consultation-header {
+        padding: 1.8rem 1.4rem 1rem;
+    }
+
+    .consultation-body {
+        padding: 1.2rem 1.4rem 1.8rem;
+    }
+
+    .consultation-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .consultation-field.full-width {
+        grid-column: span 1;
+    }
+
+    .consultation-title {
+        font-size: 1.5rem;
     }
 }
