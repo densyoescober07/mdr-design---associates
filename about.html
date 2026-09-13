@@ -37,7 +37,7 @@
                 <li><a href="index.html#projects">Projects</a></li>
                 <li><a href="services.html">Services</a></li>
             </ul>
-            <a href="index.html#contact" class="btn btn-primary">Contact Us</a>
+            <a href="#contact" class="btn btn-primary" data-open-modal="consultation">Contact Us</a>
             <div class="mobile-menu-btn">
                 <i data-lucide="menu"></i>
             </div>
@@ -82,7 +82,7 @@
                     </p>
                 </div>
                 <div class="history-image reveal reveal-scale delay-200">
-                    <img src="assets/services_sketch.jpg" alt="Architectural drawings and concept sketches">
+                    <img src="assets/mdr-logo.png" alt="MDR Designs & Associates Logo">
                 </div>
             </div>
 
@@ -341,7 +341,7 @@
             </div>
             <div class="cta-content">
                 <h2>Ready To Build Your Dream Project</h2>
-                <a href="index.html#contact" class="btn btn-primary">Let's Talk <i data-lucide="message-square"></i></a>
+                <a href="#contact" class="btn btn-primary" data-open-modal="consultation">Let's Talk <i data-lucide="message-square"></i></a>
             </div>
         </div>
     </section>
@@ -394,7 +394,7 @@
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="index.html#projects">Projects</a></li>
                         <li><a href="services.html">Services</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="#contact" data-open-modal="consultation">Contact</a></li>
                     </ul>
                 </div>
                 <div class="link-group">
@@ -451,6 +451,72 @@
                         <span id="lightboxCurrent">01</span> / <span id="lightboxTotal">07</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Luxury Book Consultation Modal -->
+    <div class="consultation-modal" id="consultationModal" aria-hidden="true" role="dialog" aria-labelledby="consultationTitle">
+        <div class="consultation-backdrop" id="consultationBackdrop"></div>
+        <div class="consultation-container">
+            <button class="consultation-close-btn" id="consultationCloseBtn" aria-label="Close Consultation Modal">
+                <i data-lucide="x"></i>
+            </button>
+
+            <!-- Form View -->
+            <div class="consultation-content-view" id="consultationContentView">
+                <div class="consultation-header">
+                    <span class="consultation-tag">START YOUR PROJECT</span>
+                    <h2 class="consultation-title" id="consultationTitle">Book a Consultation</h2>
+                    <p class="consultation-subtitle">Connect with our principal architects and engineering specialists to explore your spatial vision.</p>
+                </div>
+
+                <div class="consultation-body">
+                    <form class="consultation-form" id="consultationForm">
+                        <div class="consultation-grid">
+                            <div class="consultation-field">
+                                <label for="consultName">Full Name <span class="required">*</span></label>
+                                <input type="text" id="consultName" name="name" class="consultation-input" placeholder="e.g. Arch. Roberto Silva" required>
+                            </div>
+
+                            <div class="consultation-field">
+                                <label for="consultEmail">Email Address <span class="required">*</span></label>
+                                <input type="email" id="consultEmail" name="email" class="consultation-input" placeholder="name@company.com" required>
+                            </div>
+
+                            <div class="consultation-field">
+                                <label for="consultPhone">Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="consultPhone" name="phone" class="consultation-input" placeholder="+63 912 345 6789" required>
+                            </div>
+
+                            <div class="consultation-field">
+                                <label for="consultLocation">Project Location</label>
+                                <input type="text" id="consultLocation" name="location" class="consultation-input" placeholder="City / Province / Country">
+                            </div>
+
+                            <div class="consultation-field full-width">
+                                <label for="consultMessage">Project Details &amp; Vision</label>
+                                <textarea id="consultMessage" name="message" class="consultation-textarea" placeholder="Briefly describe your site, floor area, architectural preferences, or key requirements..."></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary consultation-submit-btn" id="consultSubmitBtn">
+                            <span>Request Consultation</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                        <p class="consultation-note">Strictly confidential. DTI and BIR registered professional practice.</p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Success State -->
+            <div class="consultation-success" id="consultationSuccess">
+                <div class="success-icon-badge">
+                    <i data-lucide="check"></i>
+                </div>
+                <h3>Consultation Request Received</h3>
+                <p>Thank you for reaching out. Our principal architect will review your project requirements and connect with you within 24 hours.</p>
+                <button type="button" class="btn btn-primary" id="consultSuccessCloseBtn">Done</button>
             </div>
         </div>
     </div>
